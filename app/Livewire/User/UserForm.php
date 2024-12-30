@@ -1,41 +1,24 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
+use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
-class UserManager extends Component
+class UserForm extends Component
 {
-    use WithPagination;
+    public $name, $email, $password, $userId,
+        $isOpen = false;
 
-    public $name, $email, $password, $userId, 
-        $isOpen = false, $sortName = 'ASC', $sortEmail = 'ASC';
-
-    #[Url(as: 'name')]
-    public $searchName = '';
-    
-    #[Url(as: 'email')]
-    public $searchEmail = '';
-
-    #[Title('User Manager')]
     public function render()
     {
-        $users = User::where('name', 'LIKE', '%'.$this->searchName.'%')
-                    ->where('email', 'LIKE', '%'.$this->searchEmail.'%')
-                    ->orderBy('name', $this->sortName)
-                    ->orderBy('email', $this->sortEmail)
-                    ->paginate(10);
-
-        return view('livewire.user-manager', [
-            'users' => $users
-        ]);
+        return view('livewire.user.user-form');
     }
 
+    #[On('open-user-modal')]
     public function openModal()
     {
         $this->isOpen = true;
@@ -78,7 +61,7 @@ class UserManager extends Component
                 $data = $this->only(['name', 'email', 'password']);
                 User::create($data);
                 
-                session()->flash('message', 'User successfully created.');
+                $this->dispatch('open-alert', status: 'success', message: 'User successfully created.');
             } else {
                 $user = User::findOrFail($this->userId);
     
@@ -93,20 +76,21 @@ class UserManager extends Component
                 $user->fill($data);
                 $user->save();
     
-                session()->flash('message', 'User successfully updated.');
+                $this->dispatch('open-alert', status: 'success', message: 'User successfully updated.');
             }
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            session()->flash('error', 'Error creating user: ' . $th->getMessage());
+            $this->dispatch('open-alert', status: 'error', message: 'Error creating user: ' . $th->getMessage());
         }
 
         $this->closeModal();
-        $this->resetPage();
+        $this->dispatch('reset-user-pagination');
     }
 
+    #[On('edit-user')]
     public function edit($id)
     {
         $user = User::findOrFail($id);
@@ -115,37 +99,5 @@ class UserManager extends Component
         $this->email = $user->email;
 
         $this->openModal();
-    }
-
-    public function delete($id)
-    {
-        User::findOrFail($id)->delete();
-        session()->flash('message', 'User successfully deleted.');
-    }
-
-    public function updatingSearchName()
-    {
-        $this->resetPage();
-    }
-
-    public function updatingSearchEmail()
-    {
-        $this->resetPage();
-    }
-
-    public function removeFilterSearch()
-    {
-        $this->searchName = '';
-        $this->searchEmail = '';
-    }
-
-    public function sortByName()
-    {
-        $this->sortName = $this->sortName === 'ASC' ? 'DESC' : 'ASC';
-    }
-
-    public function sortByEmail()
-    {
-        $this->sortEmail = $this->sortEmail === 'ASC' ? 'DESC' : 'ASC';
     }
 }

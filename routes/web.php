@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\UserManager;
+use App\Livewire\User\UserManager;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
