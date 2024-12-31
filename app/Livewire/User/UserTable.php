@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
@@ -13,6 +14,8 @@ class UserTable extends Component
 {
     use WithPagination;
 
+    private $userRepo;
+
     #[Url('name')]
     public $searchName = '';
 
@@ -21,13 +24,24 @@ class UserTable extends Component
 
     public $sortName = 'ASC', $sortEmail = 'ASC';
 
+    public function boot(UserRepository $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     public function render()
     {
-        $users = User::where('name', 'LIKE', '%'.$this->searchName.'%')
-                    ->where('email', 'LIKE', '%'.$this->searchEmail.'%')
-                    ->orderBy('name', $this->sortName)
-                    ->orderBy('email', $this->sortEmail)
-                    ->paginate(10);
+        $users = $this->userRepo->get([
+            'search' => [
+                'name' => $this->searchName,
+                'email' => $this->searchEmail
+            ],
+            'sort' => [
+                'name' => $this->sortName,
+                'email' => $this->sortEmail
+            ],
+            'perPage' => 10
+        ]);
 
         return view('livewire.user.user-table', [
             'users' => $users

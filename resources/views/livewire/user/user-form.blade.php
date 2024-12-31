@@ -1,10 +1,13 @@
 <div>
     @if($isOpen)
+        <!-- Overlay -->
+        <div class="modal-backdrop fade show"></div>
+
         <div class="modal fade show" tabindex="-1" style="display: block;">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-lg modal-fullscreen-lg-down modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Form</h5>
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title">{{ empty($userId) ? 'Create ' : 'Edit ' }} User</h5>
                         <button type="button" class="btn-close" wire:click="closeModal" aria-label="Close"></button>
                     </div>
     
@@ -62,9 +65,11 @@
                         </form>
                     </div>
     
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal">Close</button>
-                        <button type="button" class="btn btn-primary" wire:click="save">Save</button>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-outline-light text-dark me-auto" wire:click="closeModal">Close</button>
+                        <button type="button" class="btn btn-success" wire:click="save">
+                            {{ empty($userId) ? 'Create ' : 'Edit ' }} User
+                        </button>
                     </div>
                 </div>
             </div>

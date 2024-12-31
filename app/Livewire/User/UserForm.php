@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
@@ -10,8 +11,15 @@ use Livewire\Component;
 
 class UserForm extends Component
 {
+    private $userRepo;
+
     public $name, $email, $password, $userId,
         $isOpen = false;
+
+    public function boot(UserRepository $userRepository)
+    {
+        $this->userRepo = $userRepository;
+    }
 
     public function render()
     {
@@ -58,23 +66,20 @@ class UserForm extends Component
             if (empty($this->userId)) {
                 $this->password = bcrypt($this->password);
                 
+                $user = new User();
                 $data = $this->only(['name', 'email', 'password']);
-                User::create($data);
+
+                $this->userRepo->save($user->fill($data));
                 
                 $this->dispatch('open-alert', status: 'success', message: 'User successfully created.');
             } else {
                 $user = User::findOrFail($this->userId);
-    
-                if (empty($this->password)) {
-                    $this->password = $user->password;
-                } else {
-                    $this->password = bcrypt($this->password);
-                }
+
+                $this->password = empty($this->password) ? $user->password : bcrypt($this->password);
     
                 $data = $this->only(['name', 'email', 'password']);
     
-                $user->fill($data);
-                $user->save();
+                $this->userRepo->save($user->fill($data));
     
                 $this->dispatch('open-alert', status: 'success', message: 'User successfully updated.');
             }
