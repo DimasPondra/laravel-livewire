@@ -79,7 +79,14 @@ class UserTable extends Component
         try {
             DB::beginTransaction();
 
-            User::findOrFail($id)->delete();
+            $user = User::findOrFail($id);
+
+            if ($user->profile) {
+                $this->dispatch('open-alert', status: 'error', message: "Can't delete this data because it's in use.");
+                return;
+            }
+            
+            $user->delete();
 
             DB::commit();
         } catch (\Throwable $th) {
