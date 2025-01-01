@@ -29,36 +29,124 @@
                                 @enderror
                             </div>
     
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">
+                                            Email
+                                            <span class="required text-danger">*</span>
+                                        </label>
+                                        <input 
+                                            type="email" 
+                                            class="form-control @error('email') is-invalid @enderror" 
+                                            id="email" 
+                                            wire:model="email"
+                                        >
+                                        @error('email') 
+                                            <span class="error">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">
+                                            Password
+                                            @empty($userId)
+                                                <span class="required text-danger">*</span>
+                                            @endempty
+                                        </label>
+                                        <input 
+                                            type="password" 
+                                            class="form-control @error('password') is-invalid @enderror" 
+                                            id="password" 
+                                            wire:model="password"
+                                        >
+                                        @error('password') 
+                                            <span class="error">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+    
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="provinceId" class="form-label">
+                                            Province {{ $provinceId }}
+                                            <span class="required text-danger">*</span>
+                                        </label>
+                                        <select 
+                                            class="form-select @error('provinceId') is-invalid @enderror" 
+                                            wire:model.live="provinceId"
+                                        >
+                                            <option selected>Select a province</option>
+                                            @foreach ($provinces as $province)
+                                                <option value={{ $province->id }}>{{ $province->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('provinceId') 
+                                            <span class="error">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="cityId" class="form-label">
+                                            City {{ $cityId }}
+                                            <span class="required text-danger">*</span>
+                                        </label>
+                                        <select 
+                                            class="form-select @error('cityId') is-invalid @enderror" 
+                                            wire:model.live="cityId"
+                                        >
+                                            <option selected>Select a city</option>
+                                            @foreach ($cities as $city)
+                                                <option value={{ $city->id }}>{{ $city->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('cityId') 
+                                            <span class="error">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="subdistrictId" class="form-label">
+                                            Subdistrict {{ $subdistrictId }}
+                                            <span class="required text-danger">*</span>
+                                        </label>
+                                        <select 
+                                            class="form-select @error('subdistrictId') is-invalid @enderror" 
+                                            wire:model.live="subdistrictId"
+                                        >
+                                            <option selected>Select a subdistrict</option>
+                                            @foreach ($subdistricts as $subdistrict)
+                                                <option value={{ $subdistrict->id }}>{{ $subdistrict->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('subdistrictId') 
+                                            <span class="error">{{ $message }}</span> 
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="mb-3">
-                                <label for="email" class="form-label">
-                                    Email
+                                <label for="address" class="form-label">
+                                    Address
                                     <span class="required text-danger">*</span>
                                 </label>
                                 <input 
-                                    type="email" 
-                                    class="form-control @error('email') is-invalid @enderror" 
-                                    id="email" 
-                                    wire:model="email"
+                                    type="text" 
+                                    class="form-control @error('address') is-invalid @enderror" 
+                                    id="address" 
+                                    wire:model="address"
                                 >
-                                @error('email') 
-                                    <span class="error">{{ $message }}</span> 
-                                @enderror
-                            </div>
-    
-                            <div class="mb-3">
-                                <label for="password" class="form-label">
-                                    Password
-                                    @empty($userId)
-                                        <span class="required text-danger">*</span>
-                                    @endempty
-                                </label>
-                                <input 
-                                    type="password" 
-                                    class="form-control @error('password') is-invalid @enderror" 
-                                    id="password" 
-                                    wire:model="password"
-                                >
-                                @error('password') 
+                                @error('address') 
                                     <span class="error">{{ $message }}</span> 
                                 @enderror
                             </div>
