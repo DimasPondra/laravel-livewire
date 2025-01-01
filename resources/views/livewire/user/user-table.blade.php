@@ -34,10 +34,10 @@
     </div>
 
     {{-- Action Buttons --}}
-    <div class="mb-3">
+    <div class="">
         <button 
             type="button" 
-            class="btn btn-sm btn-primary" 
+            class="btn btn-sm btn-primary mb-3" 
             wire:click="openUserForm"
         >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
@@ -48,7 +48,7 @@
 
         <button 
             type="button" 
-            class="btn btn-sm btn-warning btn-block" 
+            class="btn btn-sm btn-warning btn-block mb-3" 
             wire:click="removeFilter"
         >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser" viewBox="0 0 16 16">

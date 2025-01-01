@@ -30,7 +30,7 @@
                             </div>
     
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-md-6 col-12">
                                     <div class="mb-3">
                                         <label for="email" class="form-label">
                                             Email
@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-6">
+                                <div class="col-md-6 col-12">
                                     <div class="mb-3">
                                         <label for="password" class="form-label">
                                             Password
@@ -68,13 +68,12 @@
                                     </div>
                                 </div>
                             </div>
-    
 
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-md-4 col-12">
                                     <div class="mb-3">
                                         <label for="provinceId" class="form-label">
-                                            Province {{ $provinceId }}
+                                            Province
                                             <span class="required text-danger">*</span>
                                         </label>
                                         <select 
@@ -92,10 +91,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-md-4 col-12">
                                     <div class="mb-3">
                                         <label for="cityId" class="form-label">
-                                            City {{ $cityId }}
+                                            City
                                             <span class="required text-danger">*</span>
                                         </label>
                                         <select 
@@ -113,10 +112,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-md-4 col-12">
                                     <div class="mb-3">
                                         <label for="subdistrictId" class="form-label">
-                                            Subdistrict {{ $subdistrictId }}
+                                            Subdistrict
                                             <span class="required text-danger">*</span>
                                         </label>
                                         <select 
